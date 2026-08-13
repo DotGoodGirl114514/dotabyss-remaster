@@ -1,5 +1,8 @@
 # Dot Abyss Remaster
 
+反饋及 Bug 提交請至
+QQ: 1057775708
+
 ## 安裝
 
 1. 關閉遊戲與 DMM GAME PLAYER。
