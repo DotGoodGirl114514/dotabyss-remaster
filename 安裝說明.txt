@@ -1,0 +1,24 @@
+Dot Abyss Remaster 安裝說明
+============================
+
+1. 關閉遊戲。
+2. 找到包含遊戲 .exe 的資料夾。
+3. 將這個 ZIP 內的所有內容直接解壓到該資料夾。
+4. 確認 winhttp.dll 與遊戲 .exe 位於同一層。
+5. 啟動遊戲。
+
+第一次啟動會建立必要檔案，可能需要幾分鐘，請等待遊戲正常開啟。
+成功載入後，右上角會出現插件面板。
+
+基本操作：
+- 插件預設啟用，可從右上角面板調整或關閉功能。
+- F6：展開／收合右上角面板。
+- F5：重設 DPS 統計。
+- F12：展開／收合 DPS 面板。
+
+移除方式：
+刪除遊戲目錄中的 winhttp.dll、.doorstop_version、doorstop_config.ini、dotnet 與 BepInEx。
+
+第三方元件：
+本包內含 BepInEx 6.0.0-be.784（Windows x64 / IL2CPP）。
+BepInEx 授權全文請見 BEPINEX_LICENSE.txt。

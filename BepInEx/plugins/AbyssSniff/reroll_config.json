@@ -1,0 +1,217 @@
+﻿{
+  "enabled": true,
+  "console_log_enabled": true,
+  "mode": "nether_reload",
+  "match_mode": "any",
+  "restart_delay_sec": 30,
+  "skip_cached_after_reload": true,
+  "reload_delay_sec": 8.0,
+  "nether_return_delay_sec": 2.0,
+  "post_reload_grace_sec": 2.0,
+  "error_slow_click_sec": 10.0,
+  "error_slow_window_sec": 30.0,
+  "weapon_content_type": 31,
+  "min_weapon_rarity": 3,
+  "require_rare_equip": true,
+  "rare_equip_min_rarity": 4,
+  "exploration_min_rarity": 4,
+  "exploration_reroll_mode": "defeat",
+  "exploration_defeat_delay_sec": 3,
+  "exploration_defeat_resume_delay_sec": 10,
+  "exploration_defeat_ready_settle_sec": 4.0,
+  "exploration_retry_settle_sec": 2,
+  "exploration_forge_full_clear": true,
+  "disaster_reroll_mode": "retreat",
+  "disaster_retreat_delay_sec": 8.0,
+  "disaster_desired_drops": [
+    {
+      "content_type": 90,
+      "content_id": 37010440,
+      "comment": "飢餓のモニュメント rarity-4 (37010440)"
+    },
+    {
+      "content_type": 90,
+      "content_id": 37010540,
+      "comment": "飢餓のモニュメント rarity-5 Lv75 (37010540)"
+    },
+    {
+      "content_type": 90,
+      "content_id": 38010440,
+      "comment": "氷河のモニュメント rarity-4 (38010440)"
+    },
+    {
+      "content_type": 90,
+      "content_id": 38010540,
+      "comment": "氷河のモニュメント rarity-5 Lv75 (38010540)"
+    },
+    {
+      "content_type": 90,
+      "content_id": 39010440,
+      "comment": "天使のモニュメント rarity-4 (39010440)"
+    },
+    {
+      "content_type": 90,
+      "content_id": 39010540,
+      "comment": "天使のモニュメント rarity-5 Lv75 (39010540)"
+    },
+    {
+      "content_type": 90,
+      "content_id": 40010440,
+      "comment": "煉獄のモニュメント rarity-4 (40010440)"
+    },
+    {
+      "content_type": 90,
+      "content_id": 40010540,
+      "comment": "煉獄のモニュメント rarity-5 Lv75 (40010540)"
+    }
+  ],
+  "chapter_disaster_quest_ids": [7106, 7206],
+  "chapter_disaster_pass_content_ids": [40010340, 40010440, 40010540],
+  "event_disaster_quest_ids": [103],
+  "event_disaster_desired_drops": [
+    {
+      "content_type": 90,
+      "content_id": 38020440,
+      "min_count": 2,
+      "comment": "氷河のタリスマン (38020440) ×3 — 凶化厄災 -氷河- 難度3 (qid=103)"
+    }
+  ],
+  "nether_route_overlay": true,
+  "nether_route_console": true,
+  "nether_strong_floor_types": [3],
+  "nether_secondary_floor_types": [1],
+  "nether_reroll_only_floor_types": [3, 2, 4],
+  "nether_gold_min_rarity": 3,
+  "nether_red_min_rarity": 4,
+  "nether_min_reroll_floor": 0,
+  "nether_autopath_enabled": true,
+  "nether_autopath_settle_sec": 2.0,
+  "nether_autobuff_mode": "on",
+  "nether_safe_code_cap": 5,
+  "nether_auto_next": true,
+  "nether_rules": [
+    {
+      "comment": "101-130 新深淵 強敵/Boss: LE 銃/弓任一 或 SSR 銃",
+      "floor_min": 101, "floor_max": 130, "floor_types": [3, 2],
+      "pass_gold_count": 0, "pass_red_count": 0,
+      "pass_content_ids": [], "reroll_attempt_cap": 0, "equip_content_type": 31,
+      "pass_requirements": [
+        {
+          "comment": "LE(稀有度4) 浸食ナゾの袋ランク5 銃/弓 任一 >=1",
+          "content_ids": [210335, 210334],
+          "require_any_of": [],
+          "min_total": 1
+        },
+        {
+          "comment": "SSR(稀有度3) 浸食ナゾの袋ランク5 銃 >=1",
+          "content_ids": [210325],
+          "require_any_of": [],
+          "min_total": 1
+        }
+      ]
+    },
+    {
+      "comment": "101-130 新深淵 普通戰鬥: LE 銃/弓任一 或 SSR 銃",
+      "floor_min": 101, "floor_max": 130, "floor_types": [1],
+      "pass_gold_count": 0, "pass_red_count": 0,
+      "pass_content_ids": [], "reroll_attempt_cap": 200, "equip_content_type": 31,
+      "pass_requirements": [
+        {
+          "comment": "LE(稀有度4) 浸食ナゾの袋ランク5 銃/弓 任一 >=1",
+          "content_ids": [210335, 210334],
+          "require_any_of": [],
+          "min_total": 1
+        },
+        {
+          "comment": "SSR(稀有度3) 浸食ナゾの袋ランク5 銃 >=1",
+          "content_ids": [210325],
+          "require_any_of": [],
+          "min_total": 1
+        }
+      ]
+    },
+    {
+      "comment": "1-40 low floors: appraisal lens / red / 40-attempt cap",
+      "floor_min": 1, "floor_max": 40, "floor_types": [1, 2, 3],
+      "pass_gold_count": 0, "pass_red_count": 1,
+      "pass_content_ids": [110001], "reroll_attempt_cap": 40, "equip_content_type": 31
+    },
+    {
+      "comment": "41-90 普通戰鬥: 金/紅/鑑定石/滿100場",
+      "floor_min": 41, "floor_max": 90, "floor_types": [1],
+      "pass_gold_count": 1, "pass_red_count": 1,
+      "pass_content_ids": [110001], "reroll_attempt_cap": 100, "equip_content_type": 31
+    },
+    {
+      "comment": "41-90 強敵/Boss: 雙金/單紅/鑑定石",
+      "floor_min": 41, "floor_max": 90, "floor_types": [3, 2],
+      "pass_gold_count": 2, "pass_red_count": 1,
+      "pass_content_ids": [110001], "reroll_attempt_cap": 0, "equip_content_type": 31
+    },
+    {
+      "comment": "91-100 普通戰鬥: 單金銃/紅銃/鑑定石/滿100場",
+      "floor_min": 91, "floor_max": 100, "floor_types": [1],
+      "pass_gold_count": 0, "pass_red_count": 0,
+      "pass_content_ids": [110001], "reroll_attempt_cap": 100, "equip_content_type": 31,
+      "pass_requirements": [
+        {
+          "comment": "SSR/LE ナゾの袋ランク5 銃 任一 >=1",
+          "content_ids": [210225, 210235],
+          "require_any_of": [],
+          "min_total": 1
+        }
+      ]
+    },
+    {
+      "comment": "91-100 強敵/Boss: 單金銃/紅銃 (無鑑定石)",
+      "floor_min": 91, "floor_max": 100, "floor_types": [3, 2],
+      "pass_gold_count": 0, "pass_red_count": 0,
+      "pass_content_ids": [], "reroll_attempt_cap": 0, "equip_content_type": 31,
+      "pass_requirements": [
+        {
+          "comment": "SSR/LE ナゾの袋ランク5 銃 任一 >=1",
+          "content_ids": [210225, 210235],
+          "require_any_of": [],
+          "min_total": 1
+        }
+      ]
+    }
+  ],
+  "auto_play": true,
+  "auto_click_delay_sec": 1.5,
+  "idle_center_click_sec": 2.5,
+  "center_click_y_frac": 0.42,
+  "quest_drop_targets": [
+    {
+      "quest_id": 6203,
+      "quest_type": 3,
+      "comment": "VH6-3 天上の箱庭の調査 (章節周回 area 623) — 只刷 聖者のマント レジェンダリー",
+      "desired_drops": [
+        {
+          "content_type": 80,
+          "content_id": 22010430,
+          "min_count": 1,
+          "comment": "聖者のマント レジェンダリー (出現ランク4, rarity3) = 22010430"
+        }
+      ]
+    }
+  ],
+  "desired_drops": [
+    {
+      "content_type": 31,
+      "min_rarity_level": 4,
+      "min_count": 1,
+      "comment": ">=1 equipment rarity>=4 (red / the 0.2% bag)"
+    },
+    {
+      "content_type": 31,
+      "min_rarity_level": 3,
+      "min_count": 2,
+      "comment": ">=2 equipment rarity>=3 (gold)"
+    }
+  ],
+  "disconnect": {
+    "delay_before_block_ms": 0,
+    "block_duration_ms": 5000
+  }
+}

@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BepInEx.Unity.IL2CPP</name>
+    </assembly>
+    <members>
+        <member name="M:BepInEx.Unity.IL2CPP.BasePlugin.AddComponent``1">
+            <summary>
+                Add a Component (e.g. MonoBehaviour) into Unity scene.
+                Automatically registers the type with Il2Cpp Type system if it isn't already.
+            </summary>
+            <typeparam name="T">Type of the component to add.</typeparam>
+        </member>
+        <member name="T:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut">
+            <summary>
+                A keyboard shortcut that can be used in Update method to check if user presses a key combo. The shortcut is only
+                triggered when the user presses the exact combination. For example, <c>F + LeftCtrl</c> will trigger only if user
+                presses and holds only LeftCtrl, and then presses F. If any other keys are pressed, the shortcut will not trigger.
+                Can be used as a value of a setting in <see cref="M:BepInEx.Configuration.ConfigFile.Bind``1(BepInEx.Configuration.ConfigDefinition,``0,BepInEx.Configuration.ConfigDescription)" />
+                to allow user to change this shortcut and have the changes saved.
+                How to use: Use <see cref="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.IsDown" /> in this class instead of <see cref="M:UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode)" /> in the
+                Update loop.
+            </summary>
+        </member>
+        <member name="F:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.Empty">
+            <summary>
+                Shortcut that never triggers.
+            </summary>
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.#ctor(UnityEngine.KeyCode,UnityEngine.KeyCode[])">
+            <summary>
+                Create a new keyboard shortcut.
+            </summary>
+            <param name="mainKey">Main key to press</param>
+            <param name="modifiers">Keys that should be held down before main key is registered</param>
+        </member>
+        <member name="P:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.MainKey">
+            <summary>
+                Main key of the key combination. It has to be pressed / let go last for the combination to be triggered.
+                If the combination is empty, <see cref="F:UnityEngine.KeyCode.None" /> is returned.
+            </summary>
+        </member>
+        <member name="P:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.Modifiers">
+            <summary>
+                Modifiers of the key combination, if any.
+            </summary>
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.Deserialize(System.String)">
+            <summary>
+                Attempt to deserialize key combination from the string.
+            </summary>
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.Serialize">
+            <summary>
+                Serialize the key combination into a user readable string.
+            </summary>
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.IsDown">
+            <summary>
+                Check if the main key was just pressed (Input.GetKeyDown), and specified modifier keys are all pressed
+            </summary>
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.IsPressed">
+            <summary>
+                Check if the main key is currently held down (Input.GetKey), and specified modifier keys are all pressed
+            </summary>
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.IsUp">
+            <summary>
+                Check if the main key was just lifted (Input.GetKeyUp), and specified modifier keys are all pressed.
+            </summary>
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.Configuration.KeyboardShortcut.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.IL2CPPChainloader.AddUnityComponent``1">
+            <summary>
+                Register and add a Unity Component (for example MonoBehaviour) into BepInEx global manager.
+                Automatically registers the type with Il2Cpp type system if it isn't initialised already.
+            </summary>
+            <typeparam name="T">Type of the component to add.</typeparam>
+        </member>
+        <member name="M:BepInEx.Unity.IL2CPP.IL2CPPChainloader.AddUnityComponent(System.Type)">
+            <summary>
+                Register and add a Unity Component (for example MonoBehaviour) into BepInEx global manager.
+                Automatically registers the type with Il2Cpp type system if it isn't initialised already.
+            </summary>
+            <param name="t">Type of the component to add</param>
+        </member>
+        <member name="E:BepInEx.Unity.IL2CPP.IL2CPPChainloader.PluginLoad">
+            <summary>
+                Occurs after a plugin is instantiated and just before <see cref="M:BepInEx.Unity.IL2CPP.BasePlugin.Load"/> is called.
+            </summary>
+        </member>
+        <member name="T:BepInEx.UnityInput">
+            <summary>
+            Abstraction layer over Unity's input systems for use in universal plugins that need to use hotkeys.
+            It can use either Input or Unity.InputSystem, depending on what's available. Input is preferred.
+            WARNING: Use only inside of Unity's main thread!
+            </summary>
+        </member>
+        <member name="P:BepInEx.UnityInput.Current">
+            <summary>
+            Best currently supported input system.
+            </summary>
+        </member>
+        <member name="P:BepInEx.UnityInput.LegacyInputSystemAvailable">
+            <summary>
+            True if the Input class is not disabled.
+            </summary>
+        </member>
+        <member name="T:BepInEx.IInputSystem">
+            <summary>
+            Generic input system interface. Just barely good enough for hotkeys.
+            </summary>
+        </member>
+        <member name="M:BepInEx.IInputSystem.GetKey(System.String)">
+            <inheritdoc cref="M:UnityEngine.Input.GetKey(System.String)"/>
+        </member>
+        <member name="M:BepInEx.IInputSystem.GetKey(UnityEngine.KeyCode)">
+            <inheritdoc cref="M:UnityEngine.Input.GetKey(UnityEngine.KeyCode)"/>
+        </member>
+        <member name="M:BepInEx.IInputSystem.GetKeyDown(System.String)">
+            <inheritdoc cref="M:UnityEngine.Input.GetKeyDown(System.String)"/>
+        </member>
+        <member name="M:BepInEx.IInputSystem.GetKeyDown(UnityEngine.KeyCode)">
+            <inheritdoc cref="M:UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode)"/>
+        </member>
+        <member name="M:BepInEx.IInputSystem.GetKeyUp(System.String)">
+            <inheritdoc cref="M:UnityEngine.Input.GetKeyUp(System.String)"/>
+        </member>
+        <member name="M:BepInEx.IInputSystem.GetKeyUp(UnityEngine.KeyCode)">
+            <inheritdoc cref="M:UnityEngine.Input.GetKeyUp(UnityEngine.KeyCode)"/>
+        </member>
+        <member name="M:BepInEx.IInputSystem.GetMouseButton(System.Int32)">
+            <inheritdoc cref="M:UnityEngine.Input.GetMouseButton(System.Int32)"/>
+        </member>
+        <member name="M:BepInEx.IInputSystem.GetMouseButtonDown(System.Int32)">
+            <inheritdoc cref="M:UnityEngine.Input.GetMouseButtonDown(System.Int32)"/>
+        </member>
+        <member name="M:BepInEx.IInputSystem.GetMouseButtonUp(System.Int32)">
+            <inheritdoc cref="M:UnityEngine.Input.GetMouseButtonUp(System.Int32)"/>
+        </member>
+        <member name="M:BepInEx.IInputSystem.ResetInputAxes">
+            <inheritdoc cref="M:UnityEngine.Input.ResetInputAxes"/>
+        </member>
+        <member name="P:BepInEx.IInputSystem.mousePosition">
+            <inheritdoc cref="P:UnityEngine.Input.mousePosition"/>
+        </member>
+        <member name="P:BepInEx.IInputSystem.mouseScrollDelta">
+            <inheritdoc cref="P:UnityEngine.Input.mouseScrollDelta"/>
+        </member>
+        <member name="P:BepInEx.IInputSystem.mousePresent">
+            <inheritdoc cref="P:UnityEngine.Input.mousePresent"/>
+        </member>
+        <member name="P:BepInEx.IInputSystem.anyKey">
+            <inheritdoc cref="P:UnityEngine.Input.anyKey"/>
+        </member>
+        <member name="P:BepInEx.IInputSystem.anyKeyDown">
+            <inheritdoc cref="P:UnityEngine.Input.anyKeyDown"/>
+        </member>
+        <member name="P:BepInEx.IInputSystem.SupportedKeyCodes">
+            <summary>
+            All KeyCodes supported by the current input system.
+            </summary>
+        </member>
+        <member name="M:Doorstop.Entrypoint.Start">
+            <summary>
+                The main entrypoint of BepInEx, called from Doorstop.
+            </summary>
+        </member>
+    </members>
+</doc>
