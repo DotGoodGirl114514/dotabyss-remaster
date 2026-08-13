@@ -67,6 +67,12 @@
 
 ![Boss 異常抗性面板](assets/boss-resistance-overlay.png)
 
+### 詳盡 DPS 表
+
+依角色顯示總傷害、對災厄傷害、角色傷害，以及普攻、技能、Chain 與連擊次數等細項。
+
+![詳盡 DPS 統計面板](assets/dps-overlay.png)
+
 ## Bug 修正
 
 1. 負面狀態施加失敗時，不再清除已成功施加的負面狀態。
