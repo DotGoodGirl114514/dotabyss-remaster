@@ -2,13 +2,68 @@
 
 ## 安裝
 
-1. 關閉遊戲。
+1. 關閉遊戲與 DMM GAME PLAYER。
 2. 到 [Releases](../../releases) 下載最新版的 `Source code (zip)`。
 3. 解壓縮後，開啟最外層的版本資料夾。
-4. 將裡面的所有檔案複製到包含遊戲 `.exe` 的資料夾。
-5. 確認 `winhttp.dll` 與遊戲 `.exe` 位於同一層，然後啟動遊戲。
+4. 將資料夾內的所有檔案複製到遊戲目錄：
 
-第一次啟動可能需要幾分鐘。成功載入後，右上角會出現插件面板。
+   ```text
+   C:\Users\{{user}}\dotabyss_x_cl
+   ```
+
+   `{{user}}` 是目前登入 Windows 的使用者名稱。系統詢問是否合併資料夾或覆蓋檔案時，選擇允許。
+
+5. 覆蓋完成後，確認以下檔案位於對應位置：
+
+   ```text
+   C:\Users\{{user}}\dotabyss_x_cl\ドットアビスX.exe
+   C:\Users\{{user}}\dotabyss_x_cl\winhttp.dll
+   C:\Users\{{user}}\dotabyss_x_cl\BepInEx\plugins\AbyssSniff\AbyssSniff.dll
+   C:\Users\{{user}}\dotabyss_x_cl\BepInEx\plugins\AbyssSniff\reroll_config.json
+   ```
+
+6. 啟動遊戲。第一次啟動可能需要幾分鐘；成功載入後，右上角會出現插件面板。
+
+### 覆蓋完成示意
+
+`BepInEx`、`dotnet`、`winhttp.dll` 與 `ドットアビスX.exe` 應位於下圖所示的同一個遊戲根目錄：
+
+![覆蓋完成後的遊戲目錄](assets/install-after-copy.png)
+
+## 功能
+
+1. **自動探索裝備 Reroll**
+   依稀有度、出現 Rank 與裝備種類判斷探索掉落；不符合條件時自動進入失敗與再挑戰流程，直到出現指定裝備。
+
+2. **自動災厄裝備 Reroll**
+   支援一般災厄、章節災厄與活動災厄。掉落不符合設定時自動撤退並重新出擊。
+
+3. **深淵自動化**
+
+   - 自動尋路，優先選擇符合策略的樓層路線。
+   - 自動判斷並取得 Abyss Code。
+   - 自動 Reroll，依設定刷鑑定道具與金／紅裝備。
+
+4. **藍寶石施放條件優化**
+   可依 Mana、可參與人數、冷卻時間與藍寶石名稱設定自動施放條件，不再受遊戲原生 AUTO 的固定條件限制。
+
+5. **詳盡 DPS 表**
+   顯示角色總傷害、對災厄傷害、普攻、技能、Chain、追擊、召喚物、Mana 與連擊次數，並可依總傷害或 Boss 傷害排序。
+
+6. **Boss 抗性展示**
+   顯示各負面狀態的基礎抗性、蓄積抗性、目前總抗性、成功時增加量、實際衰減速度與最近一次施加判定。
+
+## Bug 修正
+
+1. 負面狀態施加失敗時，不再清除已成功施加的負面狀態。
+2. 修正戰鬥中連擊率提升 Buff 實質不生效。
+3. 修正「漆黑之杖」的負面狀態提升 Buff 效果與說明不同，現在可以正常疊加。
+
+## 角色修正
+
+1. **ラヴェリア：情熱紋章改為敵人被擊倒時賦予，不限定由自身擊倒。**
+2. **クリスティ：ステラレコード 重複賦予時，持續時間改為疊加而不是覆蓋。**
+3. **フィルム：ノワール憑依重複賦予時，持續時間改為疊加而不是覆蓋。**
 
 ## 基本操作
 
@@ -39,7 +94,9 @@
 
 ## 移除
 
-刪除遊戲目錄中的 `winhttp.dll`、`.doorstop_version`、`doorstop_config.ini`、`dotnet` 與 `BepInEx`。
+若沒有安裝其他 BepInEx 插件，可刪除遊戲目錄中的 `winhttp.dll`、`.doorstop_version`、`doorstop_config.ini`、`dotnet` 與 `BepInEx`。
+
+若還有其他 BepInEx 插件，只刪除 `BepInEx/plugins/AbyssSniff`。
 
 ## 第三方元件
 
