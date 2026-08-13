@@ -1,5 +1,6 @@
 # Dot Abyss Remaster
 
+完全免費發布，禁止商用
 反饋及 Bug 提交請至
 QQ: 1057775708
 
