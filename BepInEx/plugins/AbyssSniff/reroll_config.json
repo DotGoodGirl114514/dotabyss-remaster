@@ -91,6 +91,7 @@
   "nether_autobuff_mode": "on",
   "nether_safe_code_cap": 5,
   "nether_auto_next": true,
+  "force_chain_allow_names": ["情熱のマナクリスタル", "衝撃のマナクリスタル"],
   "nether_rules": [
     {
       "comment": "101-130 新深淵 強敵/Boss: LE 銃/弓任一 或 SSR 銃",
