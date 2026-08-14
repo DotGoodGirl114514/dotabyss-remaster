@@ -87,6 +87,7 @@
   "nether_min_reroll_floor": 0,
   "nether_autopath_enabled": true,
   "nether_autopath_settle_sec": 2.0,
+  "nether_checkpoint_override_floor": 10,
   "nether_autobuff_mode": "on",
   "nether_safe_code_cap": 5,
   "nether_auto_next": true,
