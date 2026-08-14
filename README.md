@@ -48,6 +48,8 @@
 | <img src="assets/character-christie.png" alt="クリスティ" width="96"><br>**クリスティ** | **ステラレコード重複賦予時，持續時間改為疊加而不是覆蓋。** |
 | <img src="assets/character-film.png" alt="フィルム" width="96"><br>**フィルム** | **ノワール憑依重複賦予時，持續時間改為疊加而不是覆蓋。** |
 
+三項角色修正預設開啟。遊戲中按 `F4` 可整體關閉／開啟；狀態會寫入 `reroll_config.json`，重開遊戲後仍會沿用。切換時畫面上方會短暫顯示提示。
+
 ## 功能
 
 1. **自動探索裝備 Reroll**
@@ -100,23 +102,118 @@
 
 ## Reroll 設定
 
-設定檔位於 `BepInEx/plugins/AbyssSniff/reroll_config.json`。修改前請先關閉遊戲並備份檔案；文字與標點必須維持合法 JSON 格式。
+設定檔位於 `BepInEx/plugins/AbyssSniff/reroll_config.json`。插件只在啟動時讀取設定，因此修改前請先關閉遊戲並備份檔案，存檔後再重新啟動遊戲。
 
-- `enabled`：Reroll 總開關。
-- `auto_play`：自動點擊開始、復歸、再挑戰等流程。
-- `mode`：失敗時的處理模式；預設 `nether_reload` 用於深淵流程。
-- `match_mode`：`any` 表示符合任一目標便保留，`all` 表示必須全部符合。
-- `desired_drops`：通用掉落目標。可用 `content_type`、`content_id`、`min_rarity_level`、`min_amount` 與 `min_count` 篩選。
-- `quest_drop_targets`：依 `quest_id` 指定單一關卡的掉落目標；會優先於通用條件。
-- `nether_rules`：依深淵樓層範圍與樓層類型設定保留條件；第一條符合範圍的規則生效。
-- `nether_*`：深淵路線、自動走圖、Code 選擇與稀有度門檻。
-- `exploration_*`：探索關卡的稀有度門檻、失敗重試方式與等待時間。
-- `disaster_*`、`chapter_disaster_*`、`event_disaster_*`：不同災厄關卡的目標與撤退重刷條件。
-- `force_chain_*`：自動 Force Chain 的 Mana、人數、冷卻與名稱條件。
-- 名稱結尾為 `_sec` 的欄位：相關動作的等待秒數；遇到載入較慢或操作過快時再提高。
-- `comment`：只供閱讀，不影響判定。
+這是標準 JSON，不能加入 `//` 註解、不能漏掉逗號，也不能在最後一項後面多放逗號。需要備註時請使用現成的 `comment` 欄位；它不參與判定。
 
-設定檔已附一組預設規則。不確定欄位用途時，建議只改 `enabled`、目標掉落與各功能開關。
+如果中文字或日文變成 `\u6DF1\u6DF5` 這類字樣，檔案並沒有損壞。這只是 JSON 的 Unicode escape，插件讀到的文字與原文完全相同；按 `F4` 寫回角色修正開關時，JSON serializer 可能會把整份設定改用這種表示法。
+
+### 常用總開關
+
+| 欄位 | 用途 |
+| --- | --- |
+| `enabled` | Reroll 與自動化總開關的初始值。 |
+| `character_fixes_enabled` | ラヴェリア／クリスティ／フィルム三項角色修正；也可在遊戲中按 `F4` 一起切換。 |
+| `auto_play` | 自動點擊開始、復歸、再挑戰等流程。 |
+| `mode` | 深淵判定失敗後的處理模式；發布版預設使用 `nether_reload`。 |
+| `console_log_enabled` | 是否在 BepInEx console 顯示判定與自動化狀態。 |
+| `nether_autopath_enabled` | 深淵自動尋路。 |
+| `nether_autobuff_mode` | Abyss Code：`on` 自動選、`log` 只判定不點擊、`off` 關閉。 |
+| `force_chain_auto_enabled` | 自動施放 Force Chain 的初始值。 |
+
+名稱結尾為 `_sec` 的欄位都是相關動作的等待秒數；只有遇到載入較慢或操作過快時才需要提高。
+
+### 一般掉落篩選
+
+`desired_drops` 是通用掉落目標，`quest_drop_targets` 則用 `quest_id` 鎖定單一關卡，而且優先於通用條件。`match_mode: "any"` 表示任一目標命中便保留，`"all"` 表示每個目標都必須命中。
+
+| 篩選欄位 | 用途 |
+| --- | --- |
+| `content_type` | 限定掉落類型。不同模式的 preview 可能回報不同值；有明確 ID 時優先用 `content_id`。 |
+| `content_id` | 精確指定一種掉落。 |
+| `min_rarity_level` | 最低稀有度；目前 `3` 為金、`4` 為紅。 |
+| `min_amount` | 單筆掉落的最低數量。 |
+| `min_count` | 至少要有幾筆符合此篩選；省略時為 `1`。 |
+| `comment` | 人類可讀說明，不影響判定。 |
+
+例如只保留指定關卡的「聖者のマント」：
+
+```json
+{
+  "quest_id": 6203,
+  "quest_type": 3,
+  "comment": "只刷聖者のマント",
+  "desired_drops": [
+    {
+      "content_id": 22010430,
+      "min_count": 1,
+      "comment": "聖者のマント レジェンダリー"
+    }
+  ]
+}
+```
+
+把這個物件放進 `quest_drop_targets` 陣列即可。這裡的 `quest_id` 是 start-battle response 裡的戰鬥 ID，不是章節或區域編號。
+
+### 深淵 `nether_rules`
+
+`nether_rules` 由上往下尋找，**第一條**同時符合樓層範圍與 `floor_types` 的規則生效，因此較窄、較特殊的範圍要放前面。
+
+| 欄位 | 用途 |
+| --- | --- |
+| `floor_min` / `floor_max` | 規則涵蓋的樓層，包含上下界。 |
+| `floor_types` | `1`＝戦闘、`2`＝ボス、`3`＝強敵；陣列內任一類型皆可命中。 |
+| `pass_gold_count` | 金裝數量達標便 PASS；`0` 表示停用這條條件。 |
+| `pass_red_count` | 紅裝數量達標便 PASS；`0` 表示停用這條條件。 |
+| `pass_content_ids` | 任一指定 `content_id` 出現便 PASS，例如 `110001` 是鑑定道具。 |
+| `pass_requirements` | 精確的 ID 組合條件，適合指定武器種類的黃袋。多個 requirement 之間是 OR。 |
+| `reroll_attempt_cap` | 重刷到此次數後強制 PASS，避免死循環；`0` 表示無上限。 |
+| `equip_content_type` | 只限制金／紅數量統計，不影響 `pass_content_ids` 或 `pass_requirements` 的 ID 比對。 |
+
+同一條 `nether_rule` 裡，金裝數、紅裝數、`pass_content_ids`、各個 `pass_requirements` 與次數上限之間都是 **OR**：任一條件達標就保留該場。
+
+`pass_requirements` 的欄位語意如下：
+
+- `content_ids`：可計數的 ID 清單。
+- `min_total`：清單內掉落合計至少幾個；省略時為 `1`。
+- `require_any_of`：除了 `min_total` 外，還必須至少包含這個清單中的一種；空陣列表示沒有必含項目。
+- `count_amount`：`true` 依掉落 `amount` 加總；`false` 則每筆掉落只算一次。省略時為 `true`。
+
+`pass_requirements` **不另外判斷 `rarity_level`**，只精確比對 `content_id`。黃袋的武器種類、Rank 與稀有度已包含在各自的固定 ID 中；例如 `210234`、`210235` 在 master data 中分別就是 LE（稀有度 4）的 LV5 弓袋與銃袋，因此指定這兩個 ID 本身就已限定「LV5 紅裝」。若改用 `pass_red_count`，則會接受所有達到紅裝門檻的裝備種類，不適合只刷指定武器。
+
+例如 91–100F 只保留 LV5 紅裝黃袋的弓或銃，可把該規則的 `pass_requirements` 改成：
+
+```json
+"pass_requirements": [
+  {
+    "comment": "LE ナゾの袋ランク5：弓或銃",
+    "content_ids": [210234, 210235],
+    "require_any_of": [],
+    "min_total": 1
+  }
+]
+```
+
+若希望一定要有銃，而且弓／銃合計至少兩袋，可改成 `content_ids: [210234, 210235]`、`require_any_of: [210235]`、`min_total: 2`。
+
+### LV5 紅裝黃袋 ID
+
+以下為 master data 已核對的 LE（稀有度 4／紅裝）LV5 黃袋 ID。兩個樓層帶使用不同系列的袋子，ID 不可混用。
+
+> **樓層邊界：**發布版預設規則中，90F 仍屬 `41–90`；一般 `ナゾの袋ランク5` 專用規則是 **91–100F**，不是從 90F 開始。
+
+| 武器種類 | 91–100F `ナゾの袋ランク5` | 101–130F `浸食ナゾの袋ランク5` |
+| :---: | ---: | ---: |
+| 片手剣 | `210231` | `210331` |
+| 両手剣 | `210232` | `210332` |
+| 拳 | `210233` | `210333` |
+| 弓 | `210234` | `210334` |
+| 銃 | `210235` | `210335` |
+| 杖 | `210236` | `210336` |
+| 魔導書 | `210237` | `210337` |
+| ピッケル | `210238` | `210338` |
+
+發布版內附一組可直接使用的預設規則。若只想換要刷的武器種類，通常只需修改相應樓層規則中 `pass_requirements[].content_ids`；不要改動其他流程與等待時間。
 
 ## 移除
 

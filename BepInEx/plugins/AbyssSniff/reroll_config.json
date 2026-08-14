@@ -1,5 +1,6 @@
 ﻿{
   "enabled": true,
+  "character_fixes_enabled": true,
   "console_log_enabled": true,
   "mode": "nether_reload",
   "match_mode": "any",
