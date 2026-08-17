@@ -90,6 +90,7 @@
   "nether_checkpoint_override_floor": 10,
   "nether_autobuff_mode": "on",
   "nether_safe_code_cap": 5,
+  "nether_buff_purple_first_until_erosion": 50,
   "nether_auto_next": true,
   "force_chain_allow_names": ["情熱のマナクリスタル", "衝撃のマナクリスタル"],
   "nether_rules": [
