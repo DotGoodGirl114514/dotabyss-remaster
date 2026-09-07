@@ -1,6 +1,10 @@
 name: Publish v1.6.1
 on:
   push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/release-v161.yml
     tags:
       - v1.6.1
 permissions:
