@@ -1,0 +1,45 @@
+name: Publish v1.6.2
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/release-v162.yml
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: v1.6.2
+    steps:
+      - name: Publish and verify release
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > release-notes.md <<'RELEASE_NOTES'
+          ## 修正內容
+
+          - 修正施放 FC 後角色連鎖技能未執行、全隊卡住不動的問題：移除介入 FC／角色連鎖技能流程的診斷 hook，恢復原生執行方式，已實機確認正常。
+          - 保留 Console 日誌視窗；發行版預設關閉磁碟日誌、封包／DPS dump 與掉落診斷檔寫入。
+          - 正式 DLL 排除本機專用的 FC 診斷與記憶體監控模組。
+          - 保留 v1.6.1 的遊戲更新相容與深淵閃退修正。
+
+          ## 安裝／升級
+
+          1. 關閉遊戲與 DMM GAME PLAYER。
+          2. 將遊戲目錄中的 `BepInEx\plugins\AbyssSniff` 整個資料夾移到桌面備份，備份必須放在 `BepInEx` 以外。
+          3. 下載下方 **Source code (zip)**，解壓後將版本資料夾內的全部內容複製到遊戲根目錄，包含 `BepInEx\config\BepInEx.cfg`，允許合併與覆蓋。
+          4. 可還原個人的 `reroll_config.json` 與 `data` 內設定檔；請將 `console_log_enabled` 設為 `true`，不要還原舊 DLL、`Release` 資料夾、診斷 marker 或舊磁碟日誌設定。
+
+          新版插件 DLL 應只有 `BepInEx\plugins\AbyssSniff\AbyssSniff.dll`。Console 出現屬於正常行為，不代表會寫入日誌檔。
+
+          AbyssSniff.dll SHA-256：
+          `965AEE51A1AF0AD926204573D7C3D7EC7892B4EBBC11DE41ED6FB5B8AE71B348`
+          RELEASE_NOTES
+          gh release create "$RELEASE_TAG" --verify-tag --title "Dot Abyss Remaster $RELEASE_TAG" --notes-file release-notes.md --latest
+          gh release view "$RELEASE_TAG" --json tagName,name,isDraft,isPrerelease > release.json
+          jq -e '.tagName == "v1.6.2" and .name == "Dot Abyss Remaster v1.6.2" and .isDraft == false and .isPrerelease == false' release.json
