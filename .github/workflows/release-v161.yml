@@ -1,0 +1,43 @@
+name: Publish v1.6.1
+on:
+  push:
+    tags:
+      - v1.6.1
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: v1.6.1
+    steps:
+      - name: Publish and verify release
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > release-notes.md <<'RELEASE_NOTES'
+          ## 更新內容
+
+          - 適配 2026-09-07 遊戲更新，修正進入深淵／選擇樓層時因舊版 DLL 殘留而閃退的問題。
+          - 調整深淵樓層資料讀取，新增啟動時的 interop 綁定檢查，建置不再夾帶過期遊戲 DLL。
+          - 停用官方已修復的異常狀態覆蓋與連擊率 Buff 舊修補，避免與新版遊戲衝突。
+          - 正式版預設關閉插件日誌、BepInEx 磁碟日誌與 Console；停用封包、DPS dump 與掉落診斷檔寫入。
+
+          ## 安裝／升級
+
+          1. 關閉遊戲與 DMM GAME PLAYER。
+          2. 舊版使用者先將遊戲目錄的 `BepInEx\plugins\AbyssSniff` 整個資料夾移到桌面備份，備份必須放在 `BepInEx` 以外。
+          3. 下載下方 **Source code (zip)**，解壓後將版本資料夾內的所有內容複製到遊戲根目錄，允許合併與覆蓋，包含 `BepInEx\config\BepInEx.cfg`。
+          4. 可還原 `reroll_config.json` 與 `data` 內的個人設定檔；請保留 `console_log_enabled: false`，不要還原任何 DLL、舊 `Release` 資料夾、診斷 marker 或舊日誌設定。
+
+          新版插件 DLL 應只有 `BepInEx\plugins\AbyssSniff\AbyssSniff.dll`。僅覆蓋 DLL 不會清除舊版殘留檔案，請務必依上方步驟升級。
+
+          AbyssSniff.dll SHA-256：
+          `64AD4F817374111ADBB0D75E3A60E75E3000D59DFC02DCD69ACBDCDE53FE27F6`
+          RELEASE_NOTES
+          gh release create "$RELEASE_TAG" --verify-tag --title "Dot Abyss Remaster $RELEASE_TAG" --notes-file release-notes.md --latest
+          gh release view "$RELEASE_TAG" --json tagName,name,isDraft,isPrerelease > release.json
+          jq -e '.tagName == "v1.6.1" and .name == "Dot Abyss Remaster v1.6.1" and .isDraft == false and .isPrerelease == false' release.json

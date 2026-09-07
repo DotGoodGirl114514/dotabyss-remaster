@@ -1,7 +1,7 @@
 ﻿{
   "enabled": true,
   "character_fixes_enabled": true,
-  "console_log_enabled": true,
+  "console_log_enabled": false,
   "mode": "nether_reload",
   "match_mode": "any",
   "restart_delay_sec": 30,
