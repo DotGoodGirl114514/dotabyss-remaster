@@ -45,15 +45,17 @@
 
 ## 安裝
 
-### 舊版升級至 v1.6.2
+### 舊版升級至 v1.6.3
 
 遊戲更新後，舊插件資料夾內殘留的 DLL 會造成進入深淵或選擇樓層時閃退。**舊版使用者請先完成以下步驟，再依下方流程安裝。**
 
 1. 關閉遊戲與 DMM GAME PLAYER。
-2. 將遊戲目錄中的整個 `BepInEx\plugins\AbyssSniff` 資料夾移到桌面備份；備份必須放在 `BepInEx` 以外。
+2. 將遊戲目錄中的整個 `BepInEx\plugins\AbyssSniff` 與 `BepInEx\interop` 資料夾移到桌面備份；備份必須放在 `BepInEx` 以外。
 3. 安裝新版後，可從備份還原 `reroll_config.json` 與 `data` 內的個人設定檔；不要還原任何 DLL、舊 `Release` 資料夾或診斷 marker。
 
-新版插件 DLL 應只有 `BepInEx\plugins\AbyssSniff\AbyssSniff.dll`。`Project.dll` 等遊戲 interop DLL 由 BepInEx 自動生成，不能放回插件資料夾。
+新版插件 DLL 應只有 `BepInEx\plugins\AbyssSniff\AbyssSniff.dll`。v1.6.3 隨包提供 2026-09-09 遊戲更新後、已在本機正常進行深淵 SL 的橋接檔與配套快取，放在 `BepInEx\interop`；`Project.dll` 等橋接 DLL 不可放進插件資料夾，也不要還原舊版橋接檔。
+
+橋接自動更新仍開啟。若之後遊戲版本與包內橋接檔不同，BepInEx 會在啟動時重新生成，請等待完成。此版同步目前正常使用的外掛與橋接環境；其他玩家回報的 SL 問題尚未取得錯誤紀錄，不能保證所有不同原因的問題均已排除。
 
 ### 安裝流程
 
@@ -89,6 +91,9 @@
 在侵蝕度不會滿百的情況下速刷。開關狀態會保存，重新啟動遊戲後沿用。
 
 ## Bug 修正
+
+- v1.6.3 針對 2026-09-09 遊戲更新重新建置外掛，隨包提供當日生成的橋接檔與快取，明確啟用後續橋接自動更新；保留原本已實測正常的深淵 SL 流程與 FC 修正。
+- v1.6.3 深淵自訂掉落條件新增 `require_all_content_ids`，可要求指定道具同場全部出現；舊設定省略此欄位時維持原行為，升級可沿用個人設定。
 
 - v1.6.2 修正施放 FC 後角色連鎖技能未執行、全隊卡住不動的問題：移除介入 FC 流程的診斷 hook，恢復原生執行方式，已經實機確認恢復正常。
 

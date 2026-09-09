@@ -1,0 +1,52 @@
+name: Publish v1.6.3
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/release-v163.yml
+permissions:
+  contents: write
+concurrency:
+  group: publish-v163
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: v1.6.3
+    steps:
+      - name: Publish and verify release
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > release-notes.md <<'RELEASE_NOTES'
+          ## 更新內容
+
+          - 使用本機已正常進行深淵 SL 的程式版本，針對 2026-09-09 遊戲更新重新建置外掛。
+          - 隨包提供當日生成的橋接 DLL、配套快取與版本雜湊，統一放在 `BepInEx/interop`。
+          - 明確啟用橋接自動更新；之後遊戲版本不同時，BepInEx 仍會自動重新生成。
+          - 保留 FC 修正與原本深淵 SL 流程；深淵自訂條件新增 `require_all_content_ids`，可要求指定道具同場全部出現，舊設定可沿用。
+          - 保留 Console 視窗，發行版預設關閉磁碟日誌、封包／DPS dump 與掉落診斷檔。
+
+          其他玩家回報的 SL 失敗尚未取得錯誤紀錄。本版同步目前正常使用的程式與橋接環境，並非已確認所有 SL 問題均已修復。
+
+          ## 安裝／升級
+
+          1. 關閉遊戲與 DMM GAME PLAYER。
+          2. 將遊戲目錄中的 `BepInEx/plugins/AbyssSniff` 與 `BepInEx/interop` 整個資料夾移到桌面備份，備份必須放在 `BepInEx` 以外。
+          3. 下載下方 **Source code (zip)**，解壓後將版本資料夾內的全部內容複製到遊戲根目錄，允許合併與覆蓋，包含 `BepInEx/config/BepInEx.cfg`。
+          4. 可還原個人的 `reroll_config.json` 與 `data` 內設定檔；`console_log_enabled` 請設為 `true`。不要還原舊 DLL、`Release` 資料夾、橋接檔、診斷 marker 或舊磁碟日誌設定。
+          5. 啟動遊戲。如果遊戲版本與包內橋接檔不同，請等待 BepInEx 自動重建完成。
+
+          插件 DLL 應只有 `BepInEx/plugins/AbyssSniff/AbyssSniff.dll`；`Project.dll` 等橋接 DLL 必須放在 `BepInEx/interop`。
+
+          AbyssSniff.dll SHA-256：
+          `F4411A9EB4F8FE330A21BDF9B0C3975C935E433D15EEBFE858E4B8486A354382`
+          RELEASE_NOTES
+          gh release create "$RELEASE_TAG" --verify-tag --title "Dot Abyss Remaster $RELEASE_TAG" --notes-file release-notes.md --latest
+          gh release view "$RELEASE_TAG" --json tagName,name,isDraft,isPrerelease > release.json
+          jq -e '.tagName == "v1.6.3" and .name == "Dot Abyss Remaster v1.6.3" and .isDraft == false and .isPrerelease == false' release.json
