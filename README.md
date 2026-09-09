@@ -48,17 +48,15 @@
 
 ### 舊版升級至 v1.6.4
 
-**正常安裝的 v1.6.3 升級至 v1.6.4，關閉遊戲後直接覆蓋即可，不需要搬走整個插件或橋接資料夾。** 兩版橋接檔相同，只替換 `BepInEx\plugins\AbyssSniff\AbyssSniff.dll` 就能更新本次功能與修正。
+**舊版一般都可以直接整包覆蓋升級，不限 v1.6.3，不需要先搬走插件或橋接資料夾。**
 
-若選擇整包覆蓋，請保留自己的 `reroll_config.json` 與 `data` 內個人設定檔，或先備份、更新後還原，避免被預設設定取代。舊設定沒有 `cross_z_attack_enabled` 欄位時，新版會預設啟用跨 Z 攻擊；F4 體驗優化總開關仍有效。
+1. 關閉遊戲。
+2. 保留自己的 `reroll_config.json` 與 `data` 內個人設定檔，或先備份。
+3. 將新版整包內容覆蓋到遊戲目錄；若個人設定被覆蓋，再從備份還原，然後啟動遊戲。
 
-**只有存在舊檔殘留時才需要先清理。** 例如 `BepInEx\plugins\AbyssSniff` 內仍有舊 `Release` 資料夾、重複插件 DLL，或 `Project.dll` 等橋接 DLL。直接覆蓋不會移除這些檔案，殘留的舊橋接 DLL 曾造成深淵閃退。
+跨 Z 攻擊預設啟用，舊設定沒有新增欄位也能直接沿用；F4 體驗優化總開關仍有效。橋接檔需要更新時，啟動後會自動重建，等待完成即可。
 
-有上述殘留時，先關閉遊戲，將整個 `BepInEx\plugins\AbyssSniff` 資料夾移到 `BepInEx` 以外備份，再依下方流程安裝。完成後只還原 `reroll_config.json` 與 `data` 內個人設定檔，不要還原舊 DLL、`Release` 資料夾或診斷 marker。正常的 `BepInEx\interop` 不必先移除。
-
-本插件的 DLL 應只有 `BepInEx\plugins\AbyssSniff\AbyssSniff.dll`。v1.6.4 沿用 v1.6.3 的橋接環境，隨包提供 2026-09-09 遊戲更新後、已在本機正常進行深淵 SL 的橋接檔與配套快取，放在 `BepInEx\interop`；`Project.dll` 等橋接 DLL 不可放進插件資料夾。
-
-橋接自動更新仍開啟。若之後遊戲版本與包內橋接檔不同，BepInEx 會在啟動時重新生成，請等待完成。此版同步目前正常使用的外掛與橋接環境；其他玩家回報的 SL 問題尚未取得錯誤紀錄，不能保證所有不同原因的問題均已排除。
+例外是插件資料夾內殘留舊 `Release`、重複插件 DLL 或 `Project.dll` 等橋接 DLL：覆蓋不會刪除它們，這種情況才需先將舊插件資料夾移到 `BepInEx` 以外備份，再安裝新版並只還原個人設定。本插件的 DLL 應只有 `BepInEx\plugins\AbyssSniff\AbyssSniff.dll`，橋接 DLL 應放在 `BepInEx\interop`。
 
 ### 安裝流程
 
