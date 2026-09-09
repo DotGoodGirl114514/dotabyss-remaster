@@ -1,7 +1,7 @@
 Dot Abyss Remaster 安裝說明
 ============================
 
-v1.6.3 舊版升級注意：
+v1.6.4 舊版升級注意：
 遊戲更新後，舊插件資料夾中的殘留 DLL 會導致進入深淵／選擇樓層時閃退。
 請先關閉遊戲與 DMM GAME PLAYER，將 BepInEx\plugins\AbyssSniff 與 BepInEx\interop 整個資料夾
 移到桌面備份（必須在 BepInEx 以外），再依下方流程安裝新版。
@@ -26,6 +26,8 @@ v1.6.3 舊版升級注意：
 
 基本操作：
 - 插件預設啟用，可從右上角面板調整或關閉功能。
+- F4：整體開啟／關閉體驗優化，包含預設啟用的跨 Z 攻擊。
+- 跨 Z 攻擊可在 reroll_config.json 將 cross_z_attack_enabled 設為 false 單獨停用；舊設定未含此欄位時預設開啟。
 - F6：展開／收合右上角面板。
 - F5：重設 DPS 統計。
 - F12：展開／收合 DPS 面板。

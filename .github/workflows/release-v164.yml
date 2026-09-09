@@ -1,0 +1,44 @@
+name: Publish v1.6.4
+on:
+  push:
+    tags:
+      - v1.6.4
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: v1.6.4
+    steps:
+      - name: Publish and verify release
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > release-notes.md <<'RELEASE_NOTES'
+          ## 更新內容
+
+          - 新增玩家跨 Z 攻擊：追敵、攻擊起手與命中不再要求前後排深度對齊，改善角色在 Z 軸緩慢挪動、遲遲不出手的情況。角色不會瞬移，水平射程、攻速與傷害規則維持原樣。
+          - 修正戰鬥中水晶物件清理時的閃退：復活 Buff 修補原本誤攔截共用的清理方法，現已改用角色專用的清理方法，保留復活後恢復開場 Buff 的功能。修正版已由使用者實戰確認正常。
+          - 跨 Z 攻擊預設開啟，受 F4 體驗優化總開關控制。可將 `reroll_config.json` 的 `cross_z_attack_enabled` 設為 `false` 單獨關閉；舊設定未含此欄位時預設開啟。
+          - 沿用 v1.6.3 的 2026-09-09 橋接檔與自動更新設定，保留深淵 SL、FC 與掉落篩選功能。正式版保留 Console，預設關閉磁碟日誌，排除本次本機診斷取樣。
+
+          ## 安裝／升級
+
+          1. 關閉遊戲與 DMM GAME PLAYER。
+          2. 將遊戲目錄中的 `BepInEx/plugins/AbyssSniff` 與 `BepInEx/interop` 整個資料夾移到桌面備份，備份必須放在 `BepInEx` 以外。
+          3. 下載下方 **Source code (zip)**，解壓後將版本資料夾內的全部內容複製到遊戲根目錄，允許合併與覆蓋，包含 `BepInEx/config/BepInEx.cfg`。
+          4. 可還原個人的 `reroll_config.json` 與 `data` 內設定檔；`console_log_enabled` 請設為 `true`。不要還原舊 DLL、`Release` 資料夾、橋接檔、診斷 marker 或舊磁碟日誌設定。
+          5. 啟動遊戲。如果遊戲版本與包內橋接檔不同，請等待 BepInEx 自動重建完成。
+
+          插件 DLL 應只有 `BepInEx/plugins/AbyssSniff/AbyssSniff.dll`；`Project.dll` 等橋接 DLL 必須放在 `BepInEx/interop`。
+
+          AbyssSniff.dll SHA-256：
+          3584AA189D5561B63176362036015461BFCDB9F5269DE81EB231F1B44CBE1218
+          RELEASE_NOTES
+          gh release create "$RELEASE_TAG" --verify-tag --title "Dot Abyss Remaster $RELEASE_TAG" --notes-file release-notes.md --latest
+          gh release view "$RELEASE_TAG" --json tagName,name,isDraft,isPrerelease > release.json
+          jq -e '.tagName == "v1.6.4" and .name == "Dot Abyss Remaster v1.6.4" and .isDraft == false and .isPrerelease == false' release.json
